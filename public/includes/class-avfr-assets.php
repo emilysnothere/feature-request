@@ -1,14 +1,4 @@
 <?php
-/**
- * Asset loader
- *
- * @package   			Feature-Request
- * @author    			Averta
- * @license   			GPL-2.0+
- * @link      			http://averta.net
- * @copyright 			2015 Averta
- *
- */
 
 /**
  * Asset loader class
@@ -16,7 +6,7 @@
 class Avfr_Assets {
 
 	function __construct(){
-		add_action('wp_enqueue_scripts', array($this,'scripts'), 99);
+		add_action( 'wp_enqueue_scripts', array( $this, 'scripts' ) );
 	}
 
 	function scripts(){

@@ -20,18 +20,16 @@ class Avfr_Settings {
 
     function __construct() {
 
-        $this->dir  		= plugin_dir_path( __FILE__ );
-        $this->url  		= plugins_url( '', __FILE__ );
         $this->settings_api = new Avfr_Settings_API;
 
         add_action( 'admin_init', 						array($this, 'admin_init') );
         add_action( 'admin_menu', 						array($this, 'submenu_page'));
         add_action( 'admin_head',                       array($this, 'reset_votes'));
         add_action( 'wp_ajax_avfr_reset',               array($this, 'avfr_reset' ));
-        add_filter( 'contextual_help',                  array($this, 'avfr_admin'), 10, 2);
 
     }
-        function submenu_page() { 
+    
+    function submenu_page() { 
         
          add_submenu_page( 'edit.php?post_type=avfr', 'Settings', __('Settings','feature-request'), 'manage_options', 'feature-request-settings',array($this,'submenu_page_callback') );
 
@@ -92,6 +90,7 @@ class Avfr_Settings {
         <?php 
 
     }
+    
     /**
     *
     * Process the votes reset
@@ -429,60 +428,6 @@ class Avfr_Settings {
     }
 
 
-    function avfr_admin( $contextual_help, $screen_id) {
-         
-        switch( $screen_id ) {
-            case 'avfr_page_feature-request-settings' :
-                wp_enqueue_style('avfr-admin-css', AVFR_URL.'/admin/assets/css/admin.css', AVFR_VERSION, true );
-                // To add a whole tab group
-                get_current_screen()->add_help_tab( array(
-                'id'        => 'avfr-set-first',
-                'title'     => __( 'First View' ),
-                'content'   => __( '<P>'.'<strong>'.'First View'.'<strong/>'.'<p>'.'When you triggered feature request to active, you can choose two option for first view on your site 1st option is you can use recommended short code that exclusively explained next or 2st option you can use template page which can be see on setup page  however not differences on Functional nature between shortcode and template page but we suggest build your page with short code.' ),
-                
-                ) );
-                get_current_screen()->add_help_tab( array(
-                'id'        => 'avfr-set-options',
-                'title'     => __( 'Voting and options' ),
-                'content'   => __( '<P>'.'<strong>'.'Voting and options'.'<strong/>'.'<p>'."On feature request wordpress plugin user can see flexibility and customization power. when a request submitted users can vote their feature ( if option enabled not logged in users can be participation on voting system) then you can set limit number of voting that users can’t vote more from your purpose it does not end there you can set limitation time that limit number of voting effected on purpose time even a step further and you have permission to select one by one group and set limit number of voting and set time period limitation and you can make decision that none logged in users can be voting or only user that have signed up on your site can be vote and finally you can choose like and dislike instead vote awesome is'nt? " ),
-
-                ) );
-                get_current_screen()->add_help_tab( array(
-                'id'        => 'avfr-set-tags',
-                'title'     => __( 'Tags and group' ),
-                'content'   => __( '<P>'.'<strong>'.'Tags and group'.'<strong/>'.'<p>'.'On feature request plugin you can make category for your features it means you can direct your voters to your special purpose and tags on every post made you aware that which one is your famous subject exactly, on group section you can set option and limit for one by one that separated other be make sure you add group first and then reference to groups settings.' ),
-                
-                ) );
-                get_current_screen()->add_help_tab( array(
-                'id'        => 'avfr-set-mail',
-                'title'     => __( 'E-Mail' ),
-                'content'   => __( '<P>'.'<strong>'.'E-Mail'.'<strong/>'.'<p>'.'Feature request plugin has prospective about email section its mean you can fully customization your plugin about every things relevant to email some example is if feature approved send mail and custom message to writer and every people that made vote for approved post and etc.' ),
-                
-                ) );
-                get_current_screen()->add_help_tab( array(
-                'id'        => 'avfr-set-reset',
-                'title'     => __( 'Resets' ),
-                'content'   => __( '<P>'.'<strong>'.'Resets'.'<strong/>'.'<p>'.'On left  you will see the reset option we created this option for those who wants to rollback to defaults setting we hope this option help you to reconfigure your plugin.' ),
-                
-                ) );
-                get_current_screen()->add_help_tab( array(
-                'id'        => 'avfr-set-dev',
-                'title'     => __( 'Developers' ),
-                'content'   => __( '<P>'.'<strong>'.'Developers'.'<strong/>'.'<p>'.'Serve as developer you can see and everything you need to develop this plugin on github this plugin made in '.'<b>'. 'averta lab'.'<b/>'.' sep 2015.' ),
-                
-                ) );
-                get_current_screen()->add_help_tab( array(
-                'id'        => 'avfr-set-shcod',
-                'title'     => __( 'ShortCode' ),
-                'content'   => __( '<P>'.'<strong>'.' ShortCode '.'<strong/>'.' <p>'.' As feature request user you can add shortcode easily to your page for demonstrate your features page you can copy and paste this short code to your target page:' .'<p>'. '[feature_request hide_submit="off" hide_votes="off" hide_voting="off" groups="2,5,12"]<br>[feature_request_user_votes hide_total="off" hide_remaining="off" groups="2,5,12"]'.' <p>'.' which you can customize feature request plugin for demonstrate what feature as you want.'  ),
-                
-                ) );
-                break;
-
-        }
-        return $contextual_help;
-    }
-
 }
 endif;
 
@@ -557,8 +502,8 @@ function avfr_save_groups_custom_meta( $term_id ) {
 
     $max_votes = abs($max_votes_val);
     $total_votes = abs($total_votes_val);
-    $comments_disabled = $_POST['cm-disabled'] ? 'on' : 'off' ;
-    $new_disabled = $_POST['new-disabled'] ? 'on' : 'off' ;
+    $comments_disabled = isset( $_POST['cm-disabled'] ) ? 'on' : 'off' ;
+    $new_disabled = isset( $_POST['new-disabled'] ) ? 'on' : 'off' ;
 
     update_term_meta( $term_id, 'avfr_max_votes', $max_votes );
     update_term_meta( $term_id, 'avfr_total_votes', $total_votes );
@@ -567,5 +512,5 @@ function avfr_save_groups_custom_meta( $term_id ) {
 
 }
 
-add_action( 'edited_groups', 'avfr_save_groups_custom_meta', 10, 2 );  
+add_action( 'edited_groups', 'avfr_save_groups_custom_meta', 10, 2 );
 add_action( 'create_groups', 'avfr_save_groups_custom_meta', 10, 2 );
