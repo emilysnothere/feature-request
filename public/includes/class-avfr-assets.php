@@ -32,13 +32,10 @@ class Avfr_Assets {
 	    	if ( 'on' !== $disable_css ) {
 
 	    		wp_enqueue_style('dashicons');
-	    		wp_enqueue_style('feature-request-main', AVFR_URL.'/public/assets/css/master.css', AVFR_VERSION, true);
-	    		wp_enqueue_style('textext-core', AVFR_URL. ('/public/assets/css/textext.core.css'));
-				wp_enqueue_style('textext-autocomplete', AVFR_URL. ('/public/assets/css/textext.plugin.autocomplete.css'));
-				wp_enqueue_style('textext-tags', AVFR_URL. ('/public/assets/css/textext.plugin.tags.css'));
+	    		wp_enqueue_style('avfr-style', AVFR_URL . '/public/assets/css/main.css', AVFR_VERSION, true);
 			}
 
-			wp_enqueue_script('feature-request-script', AVFR_URL.'/public/assets/js/feature-request.js', array('jquery'), AVFR_VERSION, true);
+			wp_enqueue_script('avfr-script', AVFR_URL.'/public/assets/js/feature-request.js', array('jquery'), AVFR_VERSION, true);
 			wp_localize_script('feature-request-script', 'feature_request', avfr_localized_args( $max , $paged) );
 
 		endif;
