@@ -64,7 +64,7 @@ class Avfr_Entry {
 
 
 					//get array of inserted tags in front-end
-					$tags = str_replace(array('[',']','"','\\'), '', $_POST['avfr-tags'] );
+					$tags = $_POST['avfr-tags'];
 					$groups = $_POST['group'];
 					$tags_array = explode(',', $tags);
 					// create an feature-request post type

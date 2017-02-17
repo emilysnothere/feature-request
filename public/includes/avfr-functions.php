@@ -320,42 +320,6 @@ if ( !function_exists('avfr_submit_box') ):
 									} else {
 										
 									 ?> <span class="triangle-down"> <?php wp_dropdown_categories( $args ); } ?></span></div>
-								
-								<script type="text/javascript">
-								jQuery(document).ready(function($){
-
-								    $('#tags-data-list')
-								        .textext({
-								            plugins : 'tags autocomplete'
-								        })
-								        .bind('getSuggestions', function(e, data)
-								        {
-								        var list =  [<?php   $avfr_modal_tag = array(
-												    'orderby'           => 'name', 
-												    'order'             => 'ASC',
-												    'hide_empty'        => false, 
-												    'fields'            => 'all', 
-												    'childless'         => false,
-												    'pad_counts'        => false,  
-												    'cache_domain'      => 'core'
-												); 
-
-										        $terms = get_terms('featureTags',$avfr_modal_tag );
-										        foreach ($terms as $term) {
-										         echo "'".$term->slug."',";	
-										         } ?>  ],
-								                textext = $(e.target).textext()[0],
-								                query = (data ? data.query : '') || ''
-								                ;
-
-								            $(this).trigger(
-								                'setSuggestions',
-								                { result : textext.itemManager().filter(list, query) }
-								            );
-								        })
-								        ;
-								    });
-								</script>
 
 								<?php do_action('avfr_inside_form_top');
 
