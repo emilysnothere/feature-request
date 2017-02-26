@@ -351,7 +351,7 @@ if ( !function_exists('avfr_submit_box') ):
 	  								<label for="tags-data-list">
 	  									<?php apply_filters('avfr_form_title', _e('Feature tags:','feature-request'));?>
 	  								</label>
-								<textarea name="avfr-tags" id="tags-data-list" rows="1"></textarea>
+								<input type="text" name="avfr-tags" id="tags-data-list">
 								</div>
 
   								<?php $disable_upload = avfr_get_option('avfr_disable_upload','avfr_settings_fetures') ?>
