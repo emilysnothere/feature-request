@@ -124,7 +124,7 @@ class Avfr_Shortcodes {
 
 							$has_voted 		= get_user_meta( get_current_user_ID(), '_avfr_'.$id.'_has_voted', true);
 
-						} elseif( $public_can_vote ) {
+						} elseif( avfr_get_option('avfr_public_voting','avfr_settings_main')) {
 
 							$has_voted 		= avfr_has_vote_flag( $id, $ip, $userid, $email, 'vote' );
 
@@ -137,7 +137,7 @@ class Avfr_Shortcodes {
 						$status_class   = $status ? sprintf('avfr-entry__%s', $status ) : false;
 
 						?>
-						<article class="avfr-entry-wrap post <?php echo sanitize_html_class( $status_class );?> <?php echo $has_voted ? 'avfr-hasvoted' : false;?>">
+						<article class="avfr-entry-wrap post <?php echo sanitize_html_class( $status_class );?> <?php echo isset($has_voted) ? 'avfr-hasvoted' : '';?>">
 
 							<?php do_action('avfr_main_sc_entry_wrap_top', $postid ); ?>
 
