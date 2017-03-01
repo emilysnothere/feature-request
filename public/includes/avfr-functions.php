@@ -212,33 +212,29 @@ add_action( 'pre_get_posts', 'avfr_archive_query');
  * @since 1.0
  */
 
-if ( !function_exists('avfr_localized_args') ) {
+function avfr_localized_args( $max = '', $paged = '' ){
 
-	function avfr_localized_args( $max = '', $paged = '' ){
+	$current_user = wp_get_current_user();
 
-		global $wp_query, $post;
-		$current_user = wp_get_current_user();
+	$args = array(
+		'ajaxurl' 		  => admin_url('admin-ajax.php'),
+		'nonce'			  => wp_create_nonce('feature_request'),
+		'user_email' 	  => $current_user->user_email,
+		'label'			  => __('Load more ...', 'feature-request'),
+		'label_loading'   => __('Loading ...', 'feature-request'),
+		'thanks_voting'   => __('Thanks for voting!', 'feature-request'),
+		'already_voted'   => __('You have already voted!', 'feature-request'),
+		'confirm_flag'	  => __('Are you sure to report this feature as inappropriate ?', 'feature-request'),
+		'reached_limit'   => __('You are reached voting limit for this groups of features.', 'feature-request'),
+		'startPage'		  => $paged,
+		'maxPages' 		  => $max,
+		'nextLink' 		  => next_posts( $max, false )
+	);
 
-		$args = array(
-			'ajaxurl' 		  => admin_url('admin-ajax.php'),
-			'nonce'			  => wp_create_nonce('feature_request'),
-			'user_email' 	  => $current_user->user_email,
-			'label'			  => apply_filters('avfr_loadmore_label', __('Load more ...', 'feature-request')),
-			'label_loading'   => apply_filters('avfr_loadmore_loading', __('Loading ...', 'feature-request')),
-			'thanks_voting'   => apply_filters('avfr_thanks_voting', __('Thanks for voting!', 'feature-request')),
-			'already_voted'   => apply_filters('avfr_already_voted', __('You have already voted!', 'feature-request')),
-			'confirm_flag'	  => apply_filters('avfr_confirm_flag', __('Are you sure to report this feature as inappropriate ?', 'feature-request')),
-			'reached_limit'   => apply_filters('avfr_reached_limit', __('You are reached voting limit for this groups of features.', 'feature-request')),
-			'startPage'		  => $paged,
-			'maxPages' 		  => $max,
-			'nextLink' 		  => next_posts($max, false)
-		);
-
-		return apply_filters('avfr_localized_args', $args );
-
-	}
+	return apply_filters('avfr_localized_args', $args );
 
 }
+
 
 
 /**
