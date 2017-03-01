@@ -50,13 +50,9 @@ module.exports = function(grunt) {
                 },
                 files: {
                         'public/assets/js/feature-request.js': [
-                        'public/assets/js/transition.js',
                         'public/assets/js/load-posts.js',
                         'public/assets/js/general.js',
-                        'public/assets/js/jquery.form.min.js',
-                        'public/assets/js/textext.core.js',
-                        'public/assets/js/textext.plugin.autocomplete.js',
-                        'public/assets/js/textext.plugin.tags.js'
+                        'public/assets/js/jquery.form.min.js'
 
                     ]
                 }
