@@ -26,7 +26,8 @@ class Avfr_Assets {
 			}
 
 			wp_enqueue_script('avfr-script', AVFR_URL.'/public/assets/js/feature-request.js', array('jquery'), AVFR_VERSION, true);
-			wp_localize_script('feature-request-script', 'feature_request', avfr_localized_args( $max , $paged) );
+			error_log('message');
+			wp_localize_script('avfr-script', 'feature_request', avfr_localized_args( $max , $paged) );
 
 		endif;
 
