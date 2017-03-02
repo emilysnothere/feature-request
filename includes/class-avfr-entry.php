@@ -79,8 +79,8 @@ class Avfr_Entry {
 					if ( !is_user_logged_in() ) {
 						$email = $_POST['avfr-email'];
 						if ( !is_email($email) ) {
-							$response_array = array('success' => 'false' , 'message' => __('<span class="dashicons dashicons-warning"></span>'.'Please enter a valid email address.','feature-request'));
-							echo json_encode($response_array);
+							$response_array = array( 'message' => __('<span class="dashicons dashicons-warning"></span>'.'Please enter a valid email address.','feature-request'));
+							wp_send_json_error( $response_array );
 							die();
 						}
 					}
@@ -90,8 +90,8 @@ class Avfr_Entry {
 						if ( $_FILES["avfr-upload"]["size"] > $convert_byte_kb ) {
 
 
-							$response_array = array('success' => 'false' , 'message' => __('<span class="dashicons dashicons-warning"></span>'.' Your image size is greater than acceptable !','feature-request'));
-							echo json_encode($response_array);
+							$response_array = array( 'message' => __('<span class="dashicons dashicons-warning"></span>'.' Your image size is greater than acceptable !','feature-request'));
+							wp_send_json_error( $response_array );
 							die();
 						}
 
@@ -99,15 +99,15 @@ class Avfr_Entry {
 						//continue 
 						} else {
 
-							$response_array = array('success' => 'false' , 'message' => __('<span class="dashicons dashicons-warning"></span>'.' Please upload acceptable image format !','feature-request'));
-							echo json_encode($response_array);	
+							$response_array = array( 'message' => __('<span class="dashicons dashicons-warning"></span>'.' Please upload acceptable image format !','feature-request'));
+							wp_send_json_error( $response_array );	
 							die();
 						}
 
 						if (  $_FILES['avfr-upload']['error'] !== UPLOAD_ERR_OK  ) {
 
-							$response_array = array('success' => 'false' , 'message' => __('<span class="dashicons dashicons-dismiss"></span>'.' upload error :'. $_FILES['avfr-upload']['error'],'feature-request'));
-							echo json_encode($response_array);
+							$response_array = array( 'message' => __('<span class="dashicons dashicons-dismiss"></span>'.' upload error :'. $_FILES['avfr-upload']['error'],'feature-request'));
+							wp_send_json_error( $response_array );
 							die();
 
 						} else {
@@ -135,20 +135,20 @@ class Avfr_Entry {
 
 					do_action('avfr_entry_submitted', $entry_id, $userid );
 
-					$response_array = array('success' => 'true' , 'message' => __('<span class="dashicons dashicons-yes"></span>'.' Thanks for your entry!','feature-request'));
-					echo json_encode($response_array);
+					$response_array = array('message' => __('<span class="dashicons dashicons-yes"></span>'.' Thanks for your entry!','feature-request'));
+					wp_send_json_success( $response_array );
 
 					if( $must_approve == 'pending' ){
 						echo "<br/>";
 
-						$response_array = array('success' => 'true' , 'message' => __('<span class="dashicons dashicons-flag"></span>'.' You suggestion is awaiting moderation.','feature-request'));
-						echo json_encode($response_array);
+						$response_array = array( 'message' => __('<span class="dashicons dashicons-flag"></span>'.' You suggestion is awaiting moderation.','feature-request'));
+						wp_send_json_success( $response_array );
 
 					}
 				} else {
 
-					$response_array = array('success' => 'false' , 'message' => __('<span class="dashicons dashicons-warning"></span>'.' Captcha code is not correct!','feature-request'));
-					echo json_encode($response_array);
+					$response_array = array( 'message' => __('<span class="dashicons dashicons-warning"></span>'.' Captcha code is not correct!','feature-request'));
+					wp_send_json_error( $response_array );
 
 				}
 
