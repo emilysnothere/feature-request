@@ -5,8 +5,8 @@ License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 Tags: Feature Request, Idea Suggestion, Suggestion System
 Requires at least: 4.4
-Tested up to: 4.4
-Stable tag: 1.1.2
+Tested up to: 4.7
+Stable tag: 1.2.0
 
 Advanced Feature request and suggestion submitter with voting system for WordPress.
 
@@ -38,7 +38,7 @@ Advanced Feature request and suggestion submitter with voting system for WordPre
 
 = Compatible Browsers =
 
-* IE8+
+* IE9+
 * Firefox
 * Safari
 * Opera
@@ -55,7 +55,7 @@ You can start translating 'Feature Request' by our [online translation service](
 = Minimum Requirements =
 
 * WordPress 4.4 or greater
-* PHP version 5.2.4 or greater
+* PHP version 5.3.0 or greater
 * MySQL version 5.0 or greater
 
 **This section describes how to install the plugin and get it working**
@@ -120,6 +120,14 @@ Bugs can be reported in our [support forums](http://wordpress.org/support/plugin
 9. Single page for suggestions.
 
 == Changelog ==
+
+= Version 1.2.0 / (3.3.2017) =
+* Fix: Saving settings for votes
+* Fix: Showing message while submitting new form
+* Removed: Textext that used in tags filed.
+* Removed: On screen Help
+* Prepare plugin structure for major update and weekly updates
+* Minor bug fixes
 
 = Version 1.1.2 / (10.4.2016) =
 * Fix: Don't show dropdown when only one group exists.
