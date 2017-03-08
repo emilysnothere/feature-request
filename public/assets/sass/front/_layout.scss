@@ -267,7 +267,7 @@
         color:white;
         text-shadow:0 1px 1px rgba(0,0,0,0.1);
         @include border-radius($br-rad);
-        width: 114px;
+        width: 96px;
         font-size: 13px;
         line-height: 1.5;
     }
@@ -296,7 +296,7 @@
 
     .avfr-filter-control-item {
         display: inline-block;
-        
+
         a {
             @include button-variant($btn-color, $btn-bg, $border-color);
             @include button-size($btn-pad-ver, $btn-pad-hor, $filter-line-height, $br-rad);
@@ -304,7 +304,7 @@
             border-width: $br-width;
             font-size: 13px;
         }
-        
+
     }
 
 }
@@ -422,7 +422,7 @@
         li {
             list-style: none;
         }
-        
+
     }
 }
 
@@ -437,12 +437,12 @@
 }
 
 #avfr-avatar{
-   margin-bottom: 70px; 
+   margin-bottom: 70px;
    margin-top: 15px;
    vertical-align: none;
 
    img{
-        float: left;    
+        float: left;
         height: 40px;
         width: 40px;
         border: $br-width solid $border-color;
@@ -458,7 +458,7 @@
 
     span{
         font-weight: normal;
-        color: black; 
+        color: black;
     }
 
     .date{
