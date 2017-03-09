@@ -4,7 +4,7 @@
  * Feature Request template file
  *
  * This file is used for showing feature requests that submitted.
- * 
+ *
  * @package   			Feature-Request
  * @author    			Averta
  * @license   			GPL-2.0+
@@ -16,16 +16,16 @@ if ( current_user_can( 'manage_options' ) ) {
 
 	if ( isset($_GET['action']) ) {
 		if ( 'deletepost' === $_GET['action'] ) {
-			$id = get_the_id(); 
+			$id = get_the_id();
 			wp_trash_post($id);
 			wp_safe_redirect( get_post_type_archive_link( 'avfr' ), $status = 302 );
-		} 
+		}
 	}
 
 }
 
 if ( isset( $_GET['redirect'] ) ) {
-	
+
 	exit;
 }
 
@@ -42,7 +42,7 @@ do_action('avfr_layout_before'); ?>
 		$term = $wp_query->get_queried_object();
 
 		if (is_tax($term)) {
-			if ( 'on' == get_term_meta( $term->term_id, 'avfr_new_disabled', true ) || ( 'on' != is_single() && $single_allowed ) ) { 
+			if ( 'on' == get_term_meta( $term->term_id, 'avfr_new_disabled', true ) || ( 'on' != is_single() && $single_allowed ) ) {
 				_e('Submitting new feature for this group is closed.','feature-request');
 			} else {
 				echo avfr_submit_header();
@@ -50,9 +50,9 @@ do_action('avfr_layout_before'); ?>
 		} else {
 			echo avfr_submit_header();
 		}
-		
+
 		avfr_show_filters();
-		
+
 		do_action('avfr_before_entries'); ?>
 
 		<section class="avfr-layout-main site-content">
@@ -86,9 +86,9 @@ do_action('avfr_layout_before'); ?>
 					<div class="avfr-votes-area" id="avfr-<?php echo (int) $id;?>">
 						<div class="avfr-controls">
 							<div class="avfr-totals">
-								
+
 								<?php
-								if ( $total_votes ) { ?>	
+								if ( $total_votes ) { ?>
 								<?php
 								if ( 'on' == $total_votes ) { ?>
 
@@ -103,9 +103,9 @@ do_action('avfr_layout_before'); ?>
 							<span class="avfr-totals-label"><?php _e( 'votes','feature_request' ); ?></span>
 
 							<?php
-						} 
+						}
 						?>
-						<?php 
+						<?php
 					} else { ?>
 
 					<strong class="avfr-totals-num">0</strong><br>
@@ -127,23 +127,27 @@ do_action('avfr_layout_before'); ?>
 	<header class="entry-header">
 		<h2 class="entry-title">
 
-			<?php 
+			<?php
 			if ( ('on' == $single_allowed) || ( ('on' != $single_allowed)  && current_user_can('manage_options') ) ) { ?>
 			<a href ="<?php the_permalink(); ?>"><?php the_title(); ?></a>
 			<?php
 		} else { the_title(); } ?>
 
 	</h2>
-	<?php 
+	<?php
 	if ( is_single() ) { ?>
 	<div class="entry-meta" role="category tag">
-		<div class="avfr-short-group">
-			<span class="dashicons dashicons-category"></span>
-			<?php
-			the_terms( $id, 'groups', ' ', ', ' );
-			?>
-		</div>
 		<?php
+		if ( get_the_terms( $id, 'groups', ' ', ', ' ) ) {
+		?>
+			<div class="avfr-short-group">
+				<span class="dashicons dashicons-category"></span>
+				<?php
+				the_terms( $id, 'groups', ' ', ', ' );
+				?>
+			</div>
+		<?php
+		}
 
 		if ( false != has_term( '', 'featureTags', $id) ) {?>
 		<div class="avfr-short-tags">
@@ -156,7 +160,7 @@ do_action('avfr_layout_before'); ?>
 		<?php
 	}
 	//comments option apply here
-	$disabled_comment = get_term_meta( $groups[0]->term_id, 'avfr_comments_disabled', true );
+	$disabled_comment = $groups ? get_term_meta( $groups[0]->term_id, 'avfr_comments_disabled', true ) : '';
 	if ( 'on' == $disabled_comment ) {
 		_e('Comments are closed for this feature.','feature-request');
 	} else {
@@ -172,12 +176,12 @@ do_action('avfr_layout_before'); ?>
 	</div>
 	<?php if ( is_single() ) :?>
 		<div id="avfr-avatar">
-			<?php 
+			<?php
 			avfr_get_author_avatar($id); ?>
 
 			<div id="avfr-avatar-name">
 				<p>
-					<?php 
+					<?php
 					avfr_get_author_name($id); _e( " shared this feature", 'feature_request' ); ?>
 				</p>
 				<p class="date"><?php the_time('F j, Y'); ?></p>
@@ -196,14 +200,14 @@ do_action('avfr_layout_before'); ?>
 	<?php
 	the_content(); ?>
 	<?php
-	if ( has_post_thumbnail() && is_single() ) { 
+	if ( has_post_thumbnail() && is_single() ) {
 		$large_image_url = wp_get_attachment_image_src( get_post_thumbnail_id(), 'large' );
 
 		?>
 		<div class="attachments">
 			<p class="image-caption"> <?php _e('feature attachments:','feature-request'); ?> </p>
 			<figure class="avfr-image post-image">
-				<?php 
+				<?php
 				echo '<a rel="lightbox" href="' . $large_image_url[0] . '" title="' . the_title_attribute( 'echo=0' ) . '">';
 				the_post_thumbnail( 'thumbnail' );
 				echo '</a>';
@@ -211,31 +215,31 @@ do_action('avfr_layout_before'); ?>
 
 			</figure>
 		</div>
-		<?php 
+		<?php
 	} ?>
 </div>
 <?php
 if (is_single()) {
 	if ( current_user_can( 'manage_options' ) ) {
 		?>
-		<div id="avfr-delete">	
+		<div id="avfr-delete">
 			<span class="dashicons dashicons-trash"></span><a href="<?php echo add_query_arg( array( 'action' => 'deletepost' ), the_permalink() ); ?>"><?php _e( 'Delete post', 'feature-request' ); ?></a>
 			<span class="dashicons dashicons-edit"></span> <?php edit_post_link( 'Edit Post', '', '', '' ); ?>
 		</div>
 		<?php }
 	} ?>
 
-	<?php 
+	<?php
 	if ( is_single() ) {
 
 		//Get number of related post from option
 		$related_posts_num = avfr_get_option('avfr_related_feature_num','avfr_settings_features');
-		if ( isset( $related_posts_num ) && ('0' != $related_posts_num) ) {								
+		if ( isset( $related_posts_num ) && ('0' != $related_posts_num) ) {
 			?>
 			<div class="related-avfr-section">
 				<h2 class="related-title"><?php _e('Related Features :','feature_request') ?></h2>
 				<div class="related-avfr-list">
-					<?php 
+					<?php
 					//Get array of terms (Groups and featureTags)
 					$featuretags 	= wp_get_post_terms( $id, 'featureTags', array("fields" => "all") );
 					//Pluck out the IDs to get an array of IDS
@@ -272,7 +276,7 @@ if (is_single()) {
 					wp_reset_query();
 				} else { _e('No related feature exist.','feature-request'); }
 				?>
-			</div>	
+			</div>
 		</div>
 								<?php } // If related post number not set to 0
 							}//if is single ?>
@@ -280,14 +284,19 @@ if (is_single()) {
 							<?php if ( ! is_single() ) { ?>
 
 							<footer class="entry-meta" role="category tag">
-								<div class="avfr-short-group">
-									<span class="dashicons dashicons-category"></span>
-									<?php
-									the_terms( $id, 'groups', ' ', ', ' );
-									?>
-								</div>
 								<?php
-								if ( false != has_term( '', 'featureTags', $id) ) {?>
+								if ( get_the_terms( $id, 'groups', ' ', ', ' ) ) {
+								?>
+									<div class="avfr-short-group">
+										<span class="dashicons dashicons-category"></span>
+										<?php
+										the_terms( $id, 'groups', ' ', ', ' );
+										?>
+									</div>
+								<?php
+								}
+
+								if ( false != has_term( '', 'featureTags', $id) ) { ?>
 								<div class="avfr-short-tags">
 									<span class="dashicons dashicons-tag"></span>
 									<?php
@@ -316,7 +325,7 @@ if (is_single()) {
 						}
 						comments_template();
 
-						do_action('avfr_entry_bottom', $id ); 
+						do_action('avfr_entry_bottom', $id );
 						?>
 
 						<?php do_action('avfr_entry_wrap_bottom', $id ); ?>
@@ -346,7 +355,7 @@ if (is_single()) {
 <?php do_action('avfr_layout_after');
 
 if (is_tax($term)) {
-	if ( ! ( 'on' == avfr_get_option('disable_new_for'.$term->slug,'if_settings_groups') || ( is_single() && 'on' != $single_allowed ) ) ) { 
+	if ( ! ( 'on' == avfr_get_option('disable_new_for'.$term->slug,'if_settings_groups') || ( is_single() && 'on' != $single_allowed ) ) ) {
 		echo avfr_submit_box();
 	}
 } else {
